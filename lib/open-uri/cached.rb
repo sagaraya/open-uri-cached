@@ -44,6 +44,14 @@ module OpenURI
         if meta && f
           f.instance_variable_set(:"@meta", meta)
 
+          # workaround to avoid error with ruby 2.1.2p95
+          # ruby 2.1.2p95 で実行したらエラーが出たので追加
+          def f.metas
+            @meta.map { |key, value|
+              [key, [value]]
+            }.to_h
+          end
+
           def f.meta
             @meta
           end
